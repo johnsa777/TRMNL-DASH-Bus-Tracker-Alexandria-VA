@@ -1,0 +1,57 @@
+<style media="screen">
+  .line {
+    display: inline-flex;
+    height: 35px;
+    width: 35px;
+    line-height: 35px;
+    vertical-align: middle;
+    justify-content: center;
+    -moz-border-radius: 30px; /* or 50% */
+    border-radius: 30px; /* or 50% */
+    background-color: black;
+    color: white;
+    text-align: center;
+    font-size: 15px;
+    font-family: "Helvetica", sans-serif;
+  }
+</style>
+
+<div class="title_bar">
+  <img class="image" src="https://icons.duckduckgo.com/ip2/dashbus.com.ico" />
+  <span class="title"> {{ data.predictionsData[0].stopName }} </span>
+  <span class="instance"> {{ 'now' | date: '%s' | plus: trmnl.user.utc_offset | date: '%H:%M' }}</span>
+  <span class="content"> {{text}} </span>
+  <span class="content"> {{author}} </span>  
+</div>
+
+<div class="layout layout--col">
+  <div class="flex w-full" >
+    <table class="table">
+      <thead>
+        <tr>
+          <th><span class="title">Line</span></th>
+          <th><span class="title">Destination</span></th>
+          <th><span class="title">Arr</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- for predictionD in data.predictionsData -%}
+        {%- if forloop.index0 < 8 -%}
+          <tr>
+            <td><span class="line">{{ predictionD.routeId }}</span></td>
+            <td><span class="label">{{ predictionD.destinations[0].headsign | truncate: 15 }}</span></td>
+            {%- for prediction in predictionD.destinations[0].predictions -%}
+            <td><span class="label"> {{ 'now' | date: '%s' | plus: trmnl.user.utc_offset | plus: prediction.sec | date: '%H:%M' }} </span></td>
+            {%- endfor -%}
+          </tr>
+          {%- endif -%}
+          {%- endfor -%}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="title_bar">
+  <img class="image" src="https://icons.duckduckgo.com/ip2/dashbus.com.ico" />
+</div>
